@@ -2,9 +2,8 @@ package com.hirenest.hirenest.entitiy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 @Entity
