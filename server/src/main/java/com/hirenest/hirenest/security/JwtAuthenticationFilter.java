@@ -1,53 +1,52 @@
 package com.hirenest.hirenest.security;
 
+import com.hirenest.hirenest.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+  private final JwtTokenProvider jwtTokenProvider;
+  private final UserService userService;
 
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, CustomUserDetailsService userDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userDetailsService = userDetailsService;
+  public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserService userService) {
+    this.jwtTokenProvider = jwtTokenProvider;
+    this.userService = userService;
+  }
+
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+
+    final String authHeader = request.getHeader("Authorization");
+    final String jwt;
+    final String userEmail;
+
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      filterChain.doFilter(request, response);
+      return;
     }
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final CustomUserDetailsService userDetailsService;
+    jwt = authHeader.substring(7);
+    userEmail = jwtTokenProvider.extractUsername(jwt);
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+      UserDetails userDetails = userService.loadUserByUsername(userEmail);
 
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        jwt = authHeader.substring(7);
-        userEmail = jwtTokenProvider.extractUsername(jwt);
-
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-
-            if (jwtTokenProvider.isTokenValid(jwt, userDetails)) {
-                var authToken = jwtTokenProvider.getAuthentication(jwt, userDetails);
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-        }
-
-        filterChain.doFilter(request, response);
+      if (jwtTokenProvider.isTokenValid(jwt, userDetails)) {
+        var authToken = jwtTokenProvider.getAuthentication(jwt, userDetails);
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+      }
     }
+
+    filterChain.doFilter(request, response);
+  }
 }

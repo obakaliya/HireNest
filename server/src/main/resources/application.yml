@@ -1,4 +1,8 @@
 spring:
+  devtools:
+    livereload:
+      enabled: true
+
   datasource:
     url: jdbc:postgresql://localhost:5432/hirenest
     username: postgres
