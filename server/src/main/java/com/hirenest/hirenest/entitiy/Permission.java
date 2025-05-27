@@ -2,8 +2,11 @@ package com.hirenest.hirenest.entitiy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "permissions")
 public class Permission {
@@ -15,12 +18,4 @@ public class Permission {
   @OneToMany(mappedBy = "permission")
   @JsonBackReference
   private List<RolePermissions> rolePermissions;
-
-  public String getName() {
-    return name;
-  }
-
-  public List<RolePermissions> getRolePermissions() {
-    return rolePermissions;
-  }
 }

@@ -2,7 +2,9 @@ package com.hirenest.hirenest.entitiy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "roles_permissions")
 public class RolePermissions {
@@ -16,12 +18,4 @@ public class RolePermissions {
   @ManyToOne
   @JoinColumn(name = "permission_id", nullable = false)
   Permission permission;
-
-  public Permission getPermission() {
-    return permission;
-  }
-
-  public Role getRole() {
-    return role;
-  }
 }

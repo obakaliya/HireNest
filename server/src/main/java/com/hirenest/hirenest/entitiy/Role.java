@@ -3,7 +3,13 @@ package com.hirenest.hirenest.entitiy;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -15,23 +21,4 @@ public class Role {
   @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonManagedReference
   private List<RolePermissions> rolePermissions;
-
-  public Role(String name, List<RolePermissions> rolePermissions) {
-    this.name = name;
-    this.rolePermissions = rolePermissions;
-  }
-
-  public Role() {}
-
-  public Integer getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public List<RolePermissions> getRolePermissions() {
-    return rolePermissions;
-  }
 }

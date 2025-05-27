@@ -1,14 +1,9 @@
 package com.hirenest.hirenest.dto.requests;
 
+import lombok.Getter;
+
+@Getter
 public class AuthRequest {
   private String email;
   private String password;
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
 }

@@ -1,7 +1,13 @@
 package com.hirenest.hirenest.entitiy;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,58 +28,4 @@ public class User {
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "role_id", nullable = false)
   private Role role;
-
-  public User() {}
-
-  public User(Role role, String password, String lastName, String firstName, String email) {
-    this.role = role;
-    this.password = password;
-    this.lastName = lastName;
-    this.firstName = firstName;
-    this.email = email;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
 }

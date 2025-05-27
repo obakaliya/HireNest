@@ -6,20 +6,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@AllArgsConstructor
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtTokenProvider;
   private final UserService userService;
-
-  public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserService userService) {
-    this.jwtTokenProvider = jwtTokenProvider;
-    this.userService = userService;
-  }
 
   @Override
   protected void doFilterInternal(

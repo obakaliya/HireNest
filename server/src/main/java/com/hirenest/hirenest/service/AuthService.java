@@ -8,12 +8,14 @@ import com.hirenest.hirenest.entitiy.User;
 import com.hirenest.hirenest.repository.RoleRepository;
 import com.hirenest.hirenest.repository.UserRepository;
 import com.hirenest.hirenest.security.JwtTokenProvider;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class AuthService {
   private final UserRepository userRepository;
@@ -21,19 +23,6 @@ public class AuthService {
   private final PasswordEncoder passwordEncoder;
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
-
-  public AuthService(
-      UserRepository userRepository,
-      RoleRepository roleRepository,
-      PasswordEncoder passwordEncoder,
-      AuthenticationManager authenticationManager,
-      JwtTokenProvider jwtTokenProvider) {
-    this.userRepository = userRepository;
-    this.roleRepository = roleRepository;
-    this.passwordEncoder = passwordEncoder;
-    this.authenticationManager = authenticationManager;
-    this.jwtTokenProvider = jwtTokenProvider;
-  }
 
   public AuthResponse authenticate(AuthRequest request) {
     Authentication authentication =
