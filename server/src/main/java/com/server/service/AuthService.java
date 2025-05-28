@@ -6,6 +6,7 @@ import com.server.dto.requests.RegisterRequest;
 import com.server.dto.responses.AuthResponse;
 import com.server.entitiy.Role;
 import com.server.entitiy.User;
+import com.server.exception.BadRequestException;
 import com.server.repository.RoleRepository;
 import com.server.repository.UserRepository;
 import com.server.security.JwtTokenProvider;
@@ -39,7 +40,7 @@ public class AuthService {
 
   public AuthResponse register(RegisterRequest request) {
     if (ROLES.SUPERUSER.equalsIgnoreCase(request.getRole()))
-      throw new IllegalArgumentException("You are not allowed to register as a superuser.");
+      throw new BadRequestException("You are not allowed to register as a superuser.");
 
     Role role = roleRepository.findByName(request.getRole()).orElseThrow();
 

@@ -11,10 +11,10 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.hirenest</groupId>
-	<artifactId>hirenest</artifactId>
+	<groupId>com.server</groupId>
+	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hirenest</name>
+	<name>server</name>
 	<description>Spring Boot</description>
 
 	<properties>
@@ -78,7 +78,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -104,10 +103,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>com.diffplug.spotless</groupId>
