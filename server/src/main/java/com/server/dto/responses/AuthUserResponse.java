@@ -13,7 +13,7 @@ public class AuthUserResponse {
   private String email;
   private Role role;
 
-  public static AuthUserResponse fromUser(User user) {
+  public static AuthUserResponse toAuthUser(User user) {
     return new AuthUserResponse(
         user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
   }

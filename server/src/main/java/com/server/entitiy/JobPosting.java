@@ -1,11 +1,19 @@
 package com.server.entitiy;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "job_postings")
 public class JobPosting {
-  @Id @GeneratedValue Integer id;
+  @Id @GeneratedValue private Integer id;
 
   @Column(name = "title", nullable = false)
   private String title;

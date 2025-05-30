@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -41,8 +42,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return buildResponseEntity(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
   }
 
-  @ExceptionHandler(ForbiddenException.class)
-  public ResponseEntity<Object> handleForbidden(ForbiddenException ex, HttpServletRequest request) {
+  @ExceptionHandler({ForbiddenException.class, AuthorizationDeniedException.class})
+  public ResponseEntity<Object> handleForbidden(RuntimeException ex, HttpServletRequest request) {
     return buildResponseEntity(HttpStatus.FORBIDDEN, ex.getMessage(), request);
   }
 
