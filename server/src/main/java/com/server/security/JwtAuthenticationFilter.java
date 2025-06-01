@@ -1,6 +1,6 @@
 package com.server.security;
 
-import com.server.service.UserService;
+import com.server.service.impl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtTokenProvider;
-  private final UserService userService;
+  private final UserServiceImpl userService;
 
   @Override
   protected void doFilterInternal(

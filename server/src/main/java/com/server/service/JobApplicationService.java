@@ -1,6 +1,3 @@
 package com.server.service;
 
-import org.springframework.stereotype.Service;
-
-@Service
-public class JobApplicationService {}
+public interface JobApplicationService {}

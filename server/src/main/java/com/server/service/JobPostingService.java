@@ -3,70 +3,17 @@ package com.server.service;
 import com.server.dto.requests.NewJobPostRequest;
 import com.server.dto.responses.JobPostingResponse;
 import com.server.dto.responses.NewJobPostResponse;
-import com.server.entity.JobPosting;
-import com.server.entity.User;
-import com.server.exception.ResourceNotFoundException;
-import com.server.repository.JobPostingRepository;
 import java.util.List;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
-@Service
-@AllArgsConstructor
-public class JobPostingService {
-  private final JobPostingRepository jobPostingRepository;
+public interface JobPostingService {
 
-  public NewJobPostResponse createNewJobPosting(NewJobPostRequest newJobPostRequest) {
-    User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  List<JobPostingResponse> getJobPostings();
 
-    JobPosting jobPosting =
-        JobPosting.builder()
-            .title(newJobPostRequest.getTitle())
-            .description(newJobPostRequest.getDescription())
-            .postedBy(authUser)
-            .build();
-    JobPosting savedJobPosting = jobPostingRepository.save(jobPosting);
+  JobPostingResponse getJobPosting(Integer jobPostingId);
 
-    return new NewJobPostResponse(savedJobPosting.getId());
-  }
+  NewJobPostResponse createNewJobPosting(NewJobPostRequest newJobPostRequest);
 
-  public List<JobPostingResponse> getJobPostings() {
-    return jobPostingRepository.findAll().stream()
-        .map(posting -> JobPostingResponse.toJobPosting(posting))
-        .collect(Collectors.toList());
-  }
+  JobPostingResponse updateJobPosting(Integer jobPostingId, NewJobPostRequest updatedJobPosting);
 
-  public JobPostingResponse getJobPosting(Integer jobPostingId) {
-    JobPosting jobPosting =
-        jobPostingRepository
-            .findById(jobPostingId)
-            .orElseThrow(() -> new ResourceNotFoundException("Job posting not found"));
-
-    return JobPostingResponse.toJobPosting(jobPosting);
-  }
-
-  public JobPostingResponse updateJobPosting(
-      Integer jobPostingId, NewJobPostRequest updatedJobPosting) {
-    JobPosting jobPosting =
-        jobPostingRepository
-            .findById(jobPostingId)
-            .orElseThrow(() -> new ResourceNotFoundException("Job posting not found"));
-
-    jobPosting.setTitle(updatedJobPosting.getTitle());
-    jobPosting.setDescription(updatedJobPosting.getDescription());
-    JobPosting updatedPosting = jobPostingRepository.save(jobPosting);
-
-    return JobPostingResponse.toJobPosting(updatedPosting);
-  }
-
-  public void deleteJobPosting(Integer id) {
-    JobPosting jobPosting =
-        jobPostingRepository
-            .findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Job posting not found"));
-
-    jobPostingRepository.delete(jobPosting);
-  }
+  void deleteJobPosting(Integer id);
 }
