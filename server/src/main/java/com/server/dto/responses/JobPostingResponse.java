@@ -1,5 +1,6 @@
 package com.server.dto.responses;
 
+import com.server.entity.JobPosting;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,5 +18,16 @@ public class JobPostingResponse {
     private String firstName;
     private String lastName;
     private String email;
+  }
+
+  public static JobPostingResponse toJobPosting(JobPosting jobPosting) {
+    return new JobPostingResponse(
+        jobPosting.getId(),
+        jobPosting.getTitle(),
+        jobPosting.getDescription(),
+        new JobPostingResponse.User(
+            jobPosting.getPostedBy().getFirstName(),
+            jobPosting.getPostedBy().getLastName(),
+            jobPosting.getPostedBy().getEmail()));
   }
 }

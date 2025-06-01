@@ -1,9 +1,10 @@
 package com.server.dto.requests;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
 public class AuthRequest {
-  private String email;
-  private String password;
+  @NotBlank private String email;
+  @NotBlank private String password;
 }

@@ -4,6 +4,7 @@ import com.server.dto.requests.NewJobPostRequest;
 import com.server.dto.responses.JobPostingResponse;
 import com.server.dto.responses.NewJobPostResponse;
 import com.server.service.JobPostingService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,14 +32,14 @@ public class JobPostingController {
   @PostMapping
   @PreAuthorize("hasAuthority('CREATE:JOB_POSTING')")
   public ResponseEntity<NewJobPostResponse> createNewJobPosting(
-      @RequestBody NewJobPostRequest newJobPostRequest) {
+      @Valid @RequestBody NewJobPostRequest newJobPostRequest) {
     return ResponseEntity.ok(jobPostingService.createNewJobPosting(newJobPostRequest));
   }
 
   @PutMapping("/{id}")
   @PreAuthorize("hasAuthority('UPDATE:JOB_POSTING')")
   public ResponseEntity<JobPostingResponse> updateJobPosting(
-      @PathVariable Integer id, @RequestBody NewJobPostRequest updatedJobPosting) {
+      @PathVariable Integer id, @Valid @RequestBody NewJobPostRequest updatedJobPosting) {
     return ResponseEntity.ok(jobPostingService.updateJobPosting(id, updatedJobPosting));
   }
 

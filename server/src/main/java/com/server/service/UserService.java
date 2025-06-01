@@ -1,7 +1,7 @@
 package com.server.service;
 
 import com.server.dto.responses.AuthUserResponse;
-import com.server.entitiy.User;
+import com.server.entity.User;
 import com.server.exception.ResourceNotFoundException;
 import com.server.repository.UserRepository;
 import lombok.AllArgsConstructor;

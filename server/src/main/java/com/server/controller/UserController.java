@@ -1,8 +1,9 @@
 package com.server.controller;
 
 import com.server.dto.responses.AuthUserResponse;
-import com.server.entitiy.User;
+import com.server.entity.User;
 import com.server.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +18,7 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping("/auth")
-  public ResponseEntity<AuthUserResponse> getAuthUser(@AuthenticationPrincipal User user) {
+  public ResponseEntity<AuthUserResponse> getAuthUser(@Valid @AuthenticationPrincipal User user) {
     return ResponseEntity.ok(AuthUserResponse.toAuthUser(user));
   }
 }

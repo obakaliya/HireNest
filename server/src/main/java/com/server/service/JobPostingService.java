@@ -3,8 +3,8 @@ package com.server.service;
 import com.server.dto.requests.NewJobPostRequest;
 import com.server.dto.responses.JobPostingResponse;
 import com.server.dto.responses.NewJobPostResponse;
-import com.server.entitiy.JobPosting;
-import com.server.entitiy.User;
+import com.server.entity.JobPosting;
+import com.server.entity.User;
 import com.server.exception.ResourceNotFoundException;
 import com.server.repository.JobPostingRepository;
 import java.util.List;
@@ -34,16 +34,7 @@ public class JobPostingService {
 
   public List<JobPostingResponse> getJobPostings() {
     return jobPostingRepository.findAll().stream()
-        .map(
-            posting ->
-                new JobPostingResponse(
-                    posting.getId(),
-                    posting.getTitle(),
-                    posting.getDescription(),
-                    new JobPostingResponse.User(
-                        posting.getPostedBy().getFirstName(),
-                        posting.getPostedBy().getLastName(),
-                        posting.getPostedBy().getEmail())))
+        .map(posting -> JobPostingResponse.toJobPosting(posting))
         .collect(Collectors.toList());
   }
 
@@ -53,14 +44,7 @@ public class JobPostingService {
             .findById(jobPostingId)
             .orElseThrow(() -> new ResourceNotFoundException("Job posting not found"));
 
-    return new JobPostingResponse(
-        jobPosting.getId(),
-        jobPosting.getTitle(),
-        jobPosting.getDescription(),
-        new JobPostingResponse.User(
-            jobPosting.getPostedBy().getFirstName(),
-            jobPosting.getPostedBy().getLastName(),
-            jobPosting.getPostedBy().getEmail()));
+    return JobPostingResponse.toJobPosting(jobPosting);
   }
 
   public JobPostingResponse updateJobPosting(
@@ -74,14 +58,7 @@ public class JobPostingService {
     jobPosting.setDescription(updatedJobPosting.getDescription());
     JobPosting updatedPosting = jobPostingRepository.save(jobPosting);
 
-    return new JobPostingResponse(
-        updatedPosting.getId(),
-        updatedPosting.getTitle(),
-        updatedPosting.getDescription(),
-        new JobPostingResponse.User(
-            updatedPosting.getPostedBy().getFirstName(),
-            updatedPosting.getPostedBy().getLastName(),
-            updatedPosting.getPostedBy().getEmail()));
+    return JobPostingResponse.toJobPosting(updatedPosting);
   }
 
   public void deleteJobPosting(Integer id) {

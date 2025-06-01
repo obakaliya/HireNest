@@ -1,9 +1,10 @@
 package com.server.dto.requests;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class NewJobPostRequest {
-  private String title;
-  private String description;
+  @NotBlank private String title;
+  @NotBlank private String description;
 }

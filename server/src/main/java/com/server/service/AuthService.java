@@ -4,8 +4,8 @@ import com.server.constants.ROLES;
 import com.server.dto.requests.AuthRequest;
 import com.server.dto.requests.RegisterRequest;
 import com.server.dto.responses.AuthResponse;
-import com.server.entitiy.Role;
-import com.server.entitiy.User;
+import com.server.entity.Role;
+import com.server.entity.User;
 import com.server.exception.BadRequestException;
 import com.server.repository.RoleRepository;
 import com.server.repository.UserRepository;
@@ -42,7 +42,10 @@ public class AuthService {
     if (ROLES.SUPERUSER.equalsIgnoreCase(request.getRole()))
       throw new BadRequestException("You are not allowed to register as a superuser.");
 
-    Role role = roleRepository.findByName(request.getRole()).orElseThrow();
+    Role role =
+        roleRepository
+            .findByName(request.getRole())
+            .orElseThrow(() -> new BadRequestException("Invalid role"));
 
     User user = new User();
     user.setEmail(request.getEmail());
