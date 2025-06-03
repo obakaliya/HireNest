@@ -2,6 +2,8 @@ package com.server.entity;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,18 +32,24 @@ public class User implements UserDetails {
   @Column(name = "password", nullable = false)
   private String password;
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
-  @JoinColumn(name = "role_id", nullable = false)
-  private Role role;
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(
+      name = "user_roles",
+      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+  private Set<Role> roles = new HashSet<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<GrantedAuthority> permissions =
-        role.getRolePermissions().stream()
-            .map(p -> (GrantedAuthority) () -> p.getPermission().getName())
-            .collect(Collectors.toList());
-    permissions.add(() -> role.getName());
-    return permissions;
+    Set<GrantedAuthority> authorities = new HashSet<>();
+    for (Role role : roles) {
+      authorities.add(() -> "ROLE_" + role.getName());
+      authorities.addAll(
+          role.getRolePermissions().stream()
+              .map(p -> (GrantedAuthority) () -> p.getPermission().getName())
+              .collect(Collectors.toSet()));
+    }
+    return authorities;
   }
 
   @Override

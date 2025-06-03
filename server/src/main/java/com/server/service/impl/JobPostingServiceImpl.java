@@ -20,20 +20,6 @@ public class JobPostingServiceImpl implements JobPostingService {
   private final JobPostingRepository jobPostingRepository;
 
   @Override
-  public NewJobPostResponse createNewJobPosting(NewJobPostRequest newJobPostRequest) {
-    User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    JobPosting jobPosting =
-        JobPosting.builder()
-            .title(newJobPostRequest.getTitle())
-            .description(newJobPostRequest.getDescription())
-            .postedBy(authUser)
-            .build();
-    JobPosting savedJobPosting = jobPostingRepository.save(jobPosting);
-
-    return new NewJobPostResponse(savedJobPosting.getId());
-  }
-
   public List<JobPostingResponse> getJobPostings() {
     return jobPostingRepository.findAll().stream()
         .map(posting -> JobPostingResponse.toJobPosting(posting))
@@ -48,6 +34,21 @@ public class JobPostingServiceImpl implements JobPostingService {
             .orElseThrow(() -> new ResourceNotFoundException("Job posting not found"));
 
     return JobPostingResponse.toJobPosting(jobPosting);
+  }
+
+  @Override
+  public NewJobPostResponse createNewJobPosting(NewJobPostRequest newJobPostRequest) {
+    User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    JobPosting jobPosting =
+        JobPosting.builder()
+            .title(newJobPostRequest.getTitle())
+            .description(newJobPostRequest.getDescription())
+            .postedBy(authUser)
+            .build();
+    JobPosting savedJobPosting = jobPostingRepository.save(jobPosting);
+
+    return new NewJobPostResponse(savedJobPosting.getId());
   }
 
   @Override

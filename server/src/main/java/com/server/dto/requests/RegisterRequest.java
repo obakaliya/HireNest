@@ -10,5 +10,4 @@ public class RegisterRequest {
   @NotBlank private String firstName;
   @NotBlank private String lastName;
   @NotBlank private String password;
-  @NotBlank private String role;
 }

@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         .orElseThrow(() -> new ResourceNotFoundException("User not found"));
   }
 
+  @Override
   public AuthUserResponse authUser() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return new AuthUserResponse(
-        user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
+    return AuthUserResponse.toAuthUser(user);
   }
 }
