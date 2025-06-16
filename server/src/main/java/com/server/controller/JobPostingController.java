@@ -23,28 +23,28 @@ public class JobPostingController {
     return ResponseEntity.ok(jobPostingService.getJobPostings());
   }
 
-  @GetMapping("/{id}")
   @PreAuthorize("hasAuthority('READ:JOB_POSTING')")
+  @GetMapping("/{id}")
   public ResponseEntity<JobPostingResponse> getJobPosting(@PathVariable Integer id) {
     return ResponseEntity.ok(jobPostingService.getJobPosting(id));
   }
 
-  @PostMapping
   @PreAuthorize("hasAuthority('CREATE:JOB_POSTING')")
+  @PostMapping
   public ResponseEntity<NewJobPostResponse> createNewJobPosting(
       @Valid @RequestBody NewJobPostRequest newJobPostRequest) {
     return ResponseEntity.ok(jobPostingService.createNewJobPosting(newJobPostRequest));
   }
 
-  @PutMapping("/{id}")
   @PreAuthorize("hasAuthority('UPDATE:JOB_POSTING')")
+  @PutMapping("/{id}")
   public ResponseEntity<JobPostingResponse> updateJobPosting(
       @PathVariable Integer id, @Valid @RequestBody NewJobPostRequest updatedJobPosting) {
     return ResponseEntity.ok(jobPostingService.updateJobPosting(id, updatedJobPosting));
   }
 
-  @DeleteMapping("/{id}")
   @PreAuthorize("hasAuthority('DELETE:JOB_POSTING')")
+  @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteJobPosting(@PathVariable Integer id) {
     jobPostingService.deleteJobPosting(id);
     return ResponseEntity.noContent().build();

@@ -1,0 +1,31 @@
+server:
+  port: 9999
+  
+spring:
+  devtools:
+    livereload:
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/{PROD_DB_NAME}
+    username: null
+    password: null
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+
+jwt:
+  secret: your-very-long-secret-key-here-at-least-32-characters-long
+
+
+app:
+  use-s3: true
