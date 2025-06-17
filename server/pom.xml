@@ -11,10 +11,10 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.server</groupId>
-	<artifactId>server</artifactId>
+	<groupId>com.api</groupId>
+	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>server</name>
+	<name>api</name>
 	<description>Spring Boot</description>
 
 	<properties>

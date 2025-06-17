@@ -6,8 +6,7 @@ export const defaultHeaders: Record<string, string> = {
   // "X-CSRF-TOKEN": window.CSRF_TOKEN
 };
 
-const getUriEncodedPath = (path: string[]): string =>
-  `/${path.map(encodeURIComponent).join("/")}`;
+const getUriEncodedPath = (path: string[]): string => `/${path.map(encodeURIComponent).join("/")}`;
 
 interface IAPIResponse<T = any> extends AxiosResponse<T> {}
 
@@ -21,7 +20,7 @@ class API {
     return axios.get(getUriEncodedPath(pathSegments), {
       headers,
       ...config,
-      params,
+      params
     });
   }
 
@@ -35,7 +34,7 @@ class API {
     return axios.post(getUriEncodedPath(pathSegments), body, {
       headers,
       ...config,
-      params,
+      params
     });
   }
 
@@ -49,7 +48,7 @@ class API {
     return axios.patch(getUriEncodedPath(pathSegments), body, {
       headers,
       ...config,
-      params,
+      params
     });
   }
 
@@ -63,7 +62,7 @@ class API {
     return axios.put(getUriEncodedPath(pathSegments), body, {
       headers,
       ...config,
-      params,
+      params
     });
   }
 
@@ -76,7 +75,7 @@ class API {
     return axios.delete(getUriEncodedPath(pathSegments), {
       headers,
       ...config,
-      params,
+      params
     });
   }
 }
