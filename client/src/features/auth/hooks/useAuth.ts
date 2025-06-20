@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../../../app/store";
 import { useDispatch } from "react-redux";
-import { FETCH_AUTH_USER, ILoginPayload, ISignupPayload, LOGIN_SAGA, SIGNUP_SAGA } from "../features/auth/types";
+import { FETCH_AUTH_USER, ILoginPayload, ISignupPayload, LOGIN_SAGA, SIGNUP_SAGA } from "../types";
 
 export const useAuth = () => {
   const dispatch = useDispatch();

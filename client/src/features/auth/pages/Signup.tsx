@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Avatar, Button, TextField, Box, Typography, Container, IconButton, InputAdornment, CssBaseline } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { ILoginPayload } from "../../features/auth/types";
-import { useAuth } from "../../hooks/useAuth";
+import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
+import { ISignupPayload } from "../types";
+import { useAuth } from "../hooks/useAuth";
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -36,12 +36,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LoginPage: React.FC = () => {
+export default function Signup() {
   const classes = useStyles();
-  const { login } = useAuth();
+  const { signup } = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [formData, setFormData] = useState<ILoginPayload>({
+  const [formData, setFormData] = useState<ISignupPayload>({
+    firstName: "",
+    lastName: "",
     email: "",
     password: ""
   });
@@ -50,7 +52,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    login(formData);
+    signup(formData);
   };
 
   return (
@@ -61,19 +63,36 @@ const LoginPage: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign in
+          Sign up
         </Typography>
         <Box component='form' onSubmit={handleSubmit} className={classes.form}>
           <TextField
             margin='normal'
             required
             fullWidth
+            label='First Name'
+            name='firstName'
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            label='Last Name'
+            name='lastName'
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+          <TextField
+            margin='normal'
+            required
+            fullWidth
             label='Email Address'
             name='email'
+            type='email'
             value={formData.email}
             onChange={handleChange}
-            autoComplete='email'
-            autoFocus
           />
           <TextField
             margin='normal'
@@ -84,24 +103,23 @@ const LoginPage: React.FC = () => {
             type={showPassword ? "text" : "password"}
             value={formData.password}
             onChange={handleChange}
-            autoComplete='current-password'
             InputProps={{
               endAdornment: (
                 <InputAdornment position='end'>
-                  <IconButton onClick={() => setShowPassword((prev) => !prev)} edge='end' aria-label='toggle password visibility'>
+                  <IconButton onClick={() => setShowPassword((prev) => !prev)} edge='end'>
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               )
             }}
           />
-          <Button type='submit' fullWidth variant='contained'>
-            Sign In
+          <Button type='submit' fullWidth variant='contained' sx={{ mt: 2 }}>
+            Sign Up
           </Button>
           <Box className={classes.linkContainer}>
-            <Link to='/signup' style={{ textDecoration: "none" }}>
+            <Link to='/login' style={{ textDecoration: "none" }}>
               <Typography variant='body2' color='primary' className={classes.link}>
-                {"Don't have an account? Sign Up"}
+                Already have an account? Sign In
               </Typography>
             </Link>
           </Box>
@@ -109,6 +127,4 @@ const LoginPage: React.FC = () => {
       </Box>
     </Container>
   );
-};
-
-export default LoginPage;
+}
