@@ -6,6 +6,7 @@ import { store } from "./app/store";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import theme from "./styles/theme";
+import SnackbarWrapper from "./components/snackbar/SnackbarWrapper";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -16,6 +17,7 @@ root.render(
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <AppRouter />
+          <SnackbarWrapper />
         </ThemeProvider>
       </BrowserRouter>
     </Provider>
